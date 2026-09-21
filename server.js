@@ -3,11 +3,16 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send('VAI TOMANDO ( GO DRINK )!')
+  res.send('API-BOOK TA NO AR!')
 });
 
-app.get('/turma', (req, res) => {
-  res.send('VAI TOMAN NO CU TURMA!')
+app.get('/books', (req, res) => {
+  res.json([
+
+    {id: 1, title: 'Harry Potter', author: 'Sei la pohakakkakak'},
+    {id: 2, title: "The books on the table", author: 'MC LAN'}
+    
+  ])
 });
 
 app.listen(port, () => {
