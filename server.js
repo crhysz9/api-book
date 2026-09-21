@@ -2,19 +2,47 @@ const express = require('express');
 const app = express()
 const port = 3000
 
+const books = [
+  {id: 1, title: 'Harry Potter', author: 'Sei la pohakakkakak'},
+  {id: 2, title: "The books on the table", author: 'MC LAN'},
+  {id: 67, title: 'A AURA DO MENÓ', author: "AURA+EGO 67"}
+]
+
 app.get('/', (req, res) => {
   res.send('API-BOOK TA NO AR!')
 });
 
-app.get('/books', (req, res) => {
-  res.json([
+app.post('/newbook', (req, res) => {
+  const { titulo, autor } = req.body
+  if (!titulo){
+    return res.status(401).json({
+      message: 'O TÍTULO É OBRIGATÓRIO!'
+    })
+  }
+  const livroNovo = {
+    id: books.length + 1,
+    title: titulo,
+    author: autor || "Autor Desconhecido"
+  };
 
-    {id: 1, title: 'Harry Potter', author: 'Sei la pohakakkakak'},
-    {id: 2, title: "The books on the table", author: 'MC LAN'}
-    
-  ])
+  books.push(livroNovo)
+})
+
+app.get('/books/:id', (req, res) => {
+  const bookId = parseInt(req.params.id)
+  const book = books.find(b => b.id === bookId)
+  if (!book){
+    res.status(401).json({
+      message: "Temos esse livro aí não pai..."
+    })
+  }
+  res.json(book)
+})
+
+app.get('/books', (req, res) => {
+  res.json(books)
 });
 
 app.listen(port, () => {
-  console.log(`A aplicação ta funcionando na porta ${port} pai, calma!`)
+  console.log(`A aplicação ta funcionando pai, calma!\nPORTA: ${port}`)
 });
