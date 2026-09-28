@@ -39,6 +39,19 @@ app.get('/books/:id', (req, res) => {
   res.json(book)
 })
 
+app.delete('/deletebook/:id', (req, res) =>{
+  const bookId = parseInt(req.params.id)
+  const book = books.findIndex(b => b.id === bookId)
+  if (book === -1){
+    res.status(404).json({
+      message: "Temos esse livro aí não pai..."
+    })
+  }
+  books.splice(book, 1);
+  console.log(`O LIVRO ${book}, FOI REMOVÍDO.`)
+  res.json({message: `O LIVRO ${book}, FOI DE ARRASTA PRA RIBA!`})
+})
+
 app.get('/books', (req, res) => {
   res.json(books)
 });
