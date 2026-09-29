@@ -6,7 +6,9 @@ const books = [
   {id: 1, title: 'Harry Potter', author: 'Sei la pohakakkakak'},
   {id: 2, title: "The books on the table", author: 'MC LAN'},
   {id: 67, title: 'A AURA DO MENÓ', author: "AURA+EGO 67"}
-]
+];
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('API-BOOK TA NO AR!')
@@ -26,7 +28,7 @@ app.post('/newbook', (req, res) => {
   };
 
   books.push(livroNovo)
-})
+});
 
 app.get('/books/:id', (req, res) => {
   const bookId = parseInt(req.params.id)
@@ -37,7 +39,7 @@ app.get('/books/:id', (req, res) => {
     })
   }
   res.json(book)
-})
+});
 
 app.delete('/deletebook/:id', (req, res) =>{
   const bookId = parseInt(req.params.id)
@@ -50,7 +52,29 @@ app.delete('/deletebook/:id', (req, res) =>{
   books.splice(book, 1);
   console.log(`O LIVRO ${book}, FOI REMOVÍDO.`)
   res.json({message: `O LIVRO ${book}, FOI DE ARRASTA PRA RIBA!`})
-})
+});
+
+app.put('/editbook/:id', (req, res) => {
+  const bookid = parseInt(req.params.id);
+  const book = books.findIndex(b => b.id === bookid);
+
+  if (book === -1){
+    return res.status(404).json({message: 'LIVRO NÃO ENCONTRADO.'});
+  }
+
+  const { title, author } = req.body;
+  if (!title || !author){
+    return res.status(404).json({message: 'O TÍTULO E O AUTOR É OBRIGATÓRIO.'});
+  }
+
+  books[bookid] = {
+    id: bookid,
+    title: title,
+    author: author
+  }
+  return res.json({message: 'LIVRO ATUALIZADO COM SUCESSO.'});
+
+});
 
 app.get('/books', (req, res) => {
   res.json(books)
