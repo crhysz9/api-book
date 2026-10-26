@@ -1,26 +1,23 @@
 {
   "name": "api-book",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Praticando uso do EXPRESS.JS para criar uma API REST",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-     "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crhysz9/api-book.git"
+    "url": "git+https://github.com/spaaws/api-book.git"
   },
   "keywords": [],
-  "type": "commonjs",
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/crhysz9/api-book/issues"
+    "url": "https://github.com/spaaws/api-book/issues"
   },
-  "homepage": "https://github.com/crhysz9/api-book#readme",
+  "homepage": "https://github.com/spaaws/api-book#readme",
   "dependencies": {
     "express": "^5.2.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
   }
 }

@@ -3,83 +3,28 @@ const app = express()
 const port = 3000
 
 const books = [
-  {id: 1, title: 'Harry Potter', author: 'Sei la pohakakkakak'},
-  {id: 2, title: "The books on the table", author: 'MC LAN'},
-  {id: 67, title: 'A AURA DO MENÓ', author: "AURA+EGO 67"}
-];
-
-app.use(express.json());
+    { id: 1, title: 'Harry Potter', author: 'J.K. Rowling' },
+    { id: 2, title: 'Senhor dos Anéis', author: 'J.R.R. Tolkiens' },
+    { id: 3, title: 'O Hobbit', author: 'J.R.R. Tolkiens' }
+  ]
 
 app.get('/', (req, res) => {
-  res.send('API-BOOK TA NO AR!')
-});
+  res.send('API-BOOK está funcionando!')
+})
 
-app.post('/newbook', (req, res) => {
-  const { titulo, autor } = req.body
-  if (!titulo){
-    return res.status(401).json({
-      message: 'O TÍTULO É OBRIGATÓRIO!'
-    })
-  }
-  const livroNovo = {
-    id: books.length + 1,
-    title: titulo,
-    author: autor || "Autor Desconhecido"
-  };
-
-  books.push(livroNovo)
-});
+app.get('/books', (req, res) => {
+  res.json(books)
+})
 
 app.get('/books/:id', (req, res) => {
   const bookId = parseInt(req.params.id)
   const book = books.find(b => b.id === bookId)
-  if (!book){
-    res.status(401).json({
-      message: "Temos esse livro aí não pai..."
-    })
+  if (!book) {
+    return res.status(404).json({ message: 'Livro não encontrado' })
   }
   res.json(book)
-});
-
-app.delete('/deletebook/:id', (req, res) =>{
-  const bookId = parseInt(req.params.id)
-  const book = books.findIndex(b => b.id === bookId)
-  if (book === -1){
-    res.status(404).json({
-      message: "Temos esse livro aí não pai..."
-    })
-  }
-  books.splice(book, 1);
-  console.log(`O LIVRO ${book}, FOI REMOVÍDO.`)
-  res.json({message: `O LIVRO ${book}, FOI DE ARRASTA PRA RIBA!`})
-});
-
-app.put('/editbook/:id', (req, res) => {
-  const bookid = parseInt(req.params.id);
-  const book = books.findIndex(b => b.id === bookid);
-
-  if (book === -1){
-    return res.status(404).json({message: 'LIVRO NÃO ENCONTRADO.'});
-  }
-
-  const { title, author } = req.body;
-  if (!title || !author){
-    return res.status(404).json({message: 'O TÍTULO E O AUTOR É OBRIGATÓRIO.'});
-  }
-
-  books[bookid] = {
-    id: bookid,
-    title: title,
-    author: author
-  }
-  return res.json({message: 'LIVRO ATUALIZADO COM SUCESSO.'});
-
-});
-
-app.get('/books', (req, res) => {
-  res.json(books)
-});
+})
 
 app.listen(port, () => {
-  console.log(`A aplicação ta funcionando pai, calma!\nPORTA: ${port}`)
-});
+  console.log(`API-BOOK rodando na porta ${port}`)
+})
